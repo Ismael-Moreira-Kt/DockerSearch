@@ -82,11 +82,7 @@ void DockerSearch::searchNameInDockerhub(std::string& name) {
         
             this -> processTags(jsonResponse, tempFile);
         
-            if (jsonResponse.isMember("next") && !jsonResponse["next"].asString().empty()) {
-                nextPageUrl = jsonResponse["next"].asString();
-            } else {
-                nextPageUrl.clear()
-            }
+            nextPageUrl = this -> getNextPageUrl(jsonResponse);
         } while (!nextPageUrl.empty());
 
         tempFile.close();
@@ -178,6 +174,16 @@ void DockerSearch::processTags(const Json::Value& jsonResponse, std::ofstream& t
         std::string tagName = tag["name"].asString();
         tempFile << tagName << std::endl;
     }
+}
+
+
+
+std::string DockerSearch::getNextPageUrl(const Json::Value& jsonResponse) {
+    if (jsonResponse.isMember("next") && !jsonResponse["next"].asString().empty()) {
+        return jsonResponse["next"].asString();
+    }
+
+    return "";
 }
 
 
