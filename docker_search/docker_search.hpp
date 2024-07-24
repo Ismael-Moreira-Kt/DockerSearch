@@ -13,6 +13,7 @@ class DockerSearch {
         std::ofstream fileStream;
 
         void convertToLower(std::string& name);
+        void createSearchFilename(std::string& name);
     public:
         void define_path(std::string& path);
         void start_search(std::string& name);
