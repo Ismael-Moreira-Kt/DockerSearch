@@ -23,3 +23,14 @@ void TestConvertToLowerAlreadyLowercase() {
 
     ASSERT_EQUAL(name, "already lowercase");
 }
+
+
+
+void TestConvertToLowerEmpty() {
+    DockerSearchTestFixture fixture;
+
+    std::string name = "";
+    fixture.test.callConvertToLower(fixture.ds, name);
+
+    ASSERT_EQUAL(name, "");
+}
