@@ -17,6 +17,7 @@ class DockerSearch {
         void searchNameInDockerhub(std::string& name);
 
         std::string mountUrl(std::string& name);
+        void renameSearchFile(std::string &name, std::string &tempFilename);
     public:
         void define_path(std::string& path);
         void start_search(std::string& name);

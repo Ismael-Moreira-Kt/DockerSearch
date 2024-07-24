@@ -67,7 +67,6 @@ void DockerSearch::searchNameInDockerhub(std::string& name) {
     std::string jsonData;
     Json::Value jsonResponse;
     std::string nextPageUrl = this -> mountUrl(name);
-
     std::string tempFilename = this->path + "/temp_" + name + ".txt";
 
     try {
@@ -82,7 +81,7 @@ void DockerSearch::searchNameInDockerhub(std::string& name) {
         } while (!nextPageUrl.empty());
 
         tempFile.close();
-        
+        this -> renameSearchFile(name, tempFilename);
     } catch (const std::exception& error) {
         std::cerr << "Error processing the response: " << error.what() << std::endl;
         std::remove(tempFilename.c_str());
@@ -94,3 +93,14 @@ void DockerSearch::searchNameInDockerhub(std::string& name) {
 std::string DockerSearch::mountUrl(std::string& name) {
     return  "https://hub.docker.com/v2/repositories/library/" + name + "/tags/";
 };
+
+
+
+void DockerSearch::renameSearchFile(std::string &name, std::string &tempFilename) {
+    try {
+        std::string finalFilename = this -> path + "/" + name + ".txt";
+        std::rename(tempFilename.c_str(), finalFilename.c_str());
+    } catch (const std::exception& error) {
+        std::cerr << "Error renaming the temporary file." << error.what() << std::endl;     
+    }
+}
