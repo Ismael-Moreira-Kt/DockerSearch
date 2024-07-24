@@ -8,8 +8,17 @@ function create_build_directory() {
 
 
 
+function copy_files() {
+    cp docker_search/* _build/
+    cp _libs/musgravite/musgravite.hpp _build/
+    cp _tests/* _build
+}
+
+
+
 function main() {
     create_build_directory
+    copy_files
 }
 
 
