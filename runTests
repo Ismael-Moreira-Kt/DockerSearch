@@ -2,8 +2,14 @@
 
 
 
-function main() {
+function create_build_directory() {
+    mkdir -p _build
+}
 
+
+
+function main() {
+    create_build_directory
 }
 
 
