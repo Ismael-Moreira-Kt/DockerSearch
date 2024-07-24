@@ -17,3 +17,8 @@ void DockerSearchTest::callCreateSearchFilename(DockerSearch& ds, std::string& n
 void DockerSearchTest::callSearchNameInDockerhub(DockerSearch& ds, std::string& name) {
     ds.searchNameInDockerhub(name);
 }
+
+
+std::string DockerSearchTest::callMountUrl(DockerSearch& ds, std::string& name) {
+    return ds.mountUrl(name);
+}
