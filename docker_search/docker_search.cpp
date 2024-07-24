@@ -18,8 +18,19 @@ void DockerSearch::start_search(std::string& name) {
     }
 
     try {
-
+        this -> convertToLower(name);
     } catch(const std::runtime_error& error) {
         std::cerr << "Search process stopped: " << error.what() << std::endl;
     }
+}
+
+
+
+void DockerSearch::convertToLower(std::string& name) {
+    std::transform(
+        name.begin(), name.end(), name.begin(),
+        [](unsigned char c) -> char {
+            return std::tolower(c);
+        }
+    );
 }

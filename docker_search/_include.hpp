@@ -7,6 +7,7 @@
 #include <string>
 #include <fstream>
 #include <stdexcept>
+#include <algorithm>
 
 
 

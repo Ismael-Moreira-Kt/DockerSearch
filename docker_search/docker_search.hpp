@@ -11,6 +11,8 @@ class DockerSearch {
     private:
         std::string path;
         std::ofstream fileStream;
+
+        void convertToLower(std::string& name);
     public:
         void define_path(std::string& path);
         void start_search(std::string& name);
