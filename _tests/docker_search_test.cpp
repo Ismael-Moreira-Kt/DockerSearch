@@ -53,3 +53,9 @@ void DockerSearchTest::callProcessTags(DockerSearch& ds, const Json::Value& json
 std::string callGetNextPageUrl(DockerSearch& ds, const Json::Value& jsonResponse) {
     return ds.getNextPageUrl(jsonResponse);
 }
+
+
+
+void callSortFile(DockerSearch& ds, const std::string& filename) {
+    ds.sortFile(filename);
+}
