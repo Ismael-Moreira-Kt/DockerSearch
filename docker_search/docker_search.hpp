@@ -19,6 +19,7 @@ class DockerSearch {
         std::string mountUrl(std::string& name);
         void renameSearchFile(std::string &name, std::string &tempFilename);
         std::string fetchDataFromUrl(const std::string& url);
+        Json::Value parseJson(const std::string& jsonData);
     public:
         void define_path(std::string& path);
         void start_search(std::string& name);

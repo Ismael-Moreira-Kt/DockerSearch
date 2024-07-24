@@ -78,6 +78,7 @@ void DockerSearch::searchNameInDockerhub(std::string& name) {
 
         do {
             jsonData = this -> fetchDataFromUrl(nextPageUrl);
+            jsonResponse = this -> parseJson(jsonData);
         } while (!nextPageUrl.empty());
 
         tempFile.close();
@@ -135,6 +136,23 @@ std::string DockerSearch::fetchDataFromUrl(const std::string& url) {
     curl_global_cleanup();
     return readBuffer;
 }
+
+
+
+Json::Value DockerSearch::parseJson(const std::string& jsonData) {
+    Json::CharReaderBuilder readerBuilder;
+    Json::Value jsonResponse;
+
+    std::istringstream ss(jsonData);
+    std::string errs;
+
+    if (!Json::pareFromStream(readerBuilder, ss, &jsonResponse. &errs)) {
+        throw std::runtime_error("Failed to parse JSON: " + errs);
+    }
+    
+    return jsonResponse;
+}
+
 
 
 size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
