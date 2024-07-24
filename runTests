@@ -1,0 +1,73 @@
+#!/bin/bash
+
+
+
+function create_build_directory() {
+    mkdir -p _build
+}
+
+
+
+function copy_files() {
+    cp docker_search/* _build/
+    cp _libs/musgravite/musgravite.hpp _build/
+    cp _tests/* _build
+}
+
+
+
+function get_cpp_files() {
+    find . -name '*.cpp' | tr '\n' ' '
+}
+
+
+
+function compile_code() {
+    cd _build || { echo "Failed to enter _build directory"; exit 1; }
+
+    local cpp_files
+    cpp_files=$(get_cpp_files)
+
+    g++ -std=c++17 -o test_executable \
+        $cpp_files \
+        -I/usr/include/jsoncpp \
+        -ljsoncpp
+
+    return $?
+}
+
+
+
+function run_tests() {
+    ./test_executable
+
+    return $?
+}
+
+
+
+function cleanup() {
+    cd .. || { echo "Failed to return to parent directory"; exit 1; }
+    rm -rf _build
+}
+
+
+
+function main() {
+    create_build_directory
+    copy_files
+
+    if compile_code; then
+        echo "Compilation successful!"
+
+        run_tests
+    else
+        echo "Compilation failed."
+    fi
+
+    cleanup
+}
+
+
+
+main

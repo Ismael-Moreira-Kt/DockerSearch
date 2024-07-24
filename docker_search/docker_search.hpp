@@ -23,6 +23,8 @@ class DockerSearch {
         void processTags(const Json::Value& jsonResponse, std::ofstream& tempFile);
         std::string getNextPageUrl(const Json::Value& jsonResponse);
         void sortFile(const std::string& filename);
+
+        friend class DockerSearchTest;
     public:
         void define_path(std::string& path);
         void start_search(std::string& name);
