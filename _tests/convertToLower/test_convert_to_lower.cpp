@@ -45,3 +45,14 @@ void TestConvertToLowerMixedCase() {
     
     ASSERT_EQUAL(name, "mixed case");
 }
+
+
+
+void TestConvertToLowerNonAlphabetic() {
+    DockerSearchTestFixture fixture;
+    
+    std::string name = "123456 !@#$%";
+    fixture.test.callConvertToLower(fixture.ds, name);
+    
+    ASSERT_EQUAL(name, "123456 !@#$%");
+}
