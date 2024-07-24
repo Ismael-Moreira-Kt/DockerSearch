@@ -86,6 +86,8 @@ void DockerSearch::searchNameInDockerhub(std::string& name) {
         } while (!nextPageUrl.empty());
 
         tempFile.close();
+
+        this -> sortFile(tempFilename);
         this -> renameSearchFile(name, tempFilename);
     } catch (const std::exception& error) {
         std::cerr << "Error processing the response: " << error.what() << std::endl;
@@ -184,6 +186,38 @@ std::string DockerSearch::getNextPageUrl(const Json::Value& jsonResponse) {
     }
 
     return "";
+}
+
+
+
+void DockerSearch::sortFile(const std::string& filename) {
+    std::ifstream file(filename);
+    std::vector<std::string> lines;
+
+    if (!file.is_open()) {
+        throw std::runtime_error("Failed to open file for sorting: " + filename);
+    }
+
+    std::string line;
+
+    while (std::getline(file, line)) {
+        lines.push_back(line);
+    }
+
+    file.close();
+
+    std::sort(line.begin(), lines.end());
+    std::ofstream outFile(filename);
+
+    if (!outFile.is_open()) {
+        throw std::runtime_error("Failed to open file for writing sorted content: " + filename);
+    }
+
+    for (const auto& sortedLine : lines) {
+        outFile << sortedLine << std::endl;
+    }
+
+    outFile.close();
 }
 
 
