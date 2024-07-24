@@ -77,7 +77,7 @@ void DockerSearch::searchNameInDockerhub(std::string& name) {
         }
 
         do {
-
+            jsonData = this -> fetchDataFromUrl(nextPageUrl);
         } while (!nextPageUrl.empty());
 
         tempFile.close();
@@ -103,4 +103,35 @@ void DockerSearch::renameSearchFile(std::string &name, std::string &tempFilename
     } catch (const std::exception& error) {
         std::cerr << "Error renaming the temporary file." << error.what() << std::endl;     
     }
+}
+
+
+
+std::string DockerSearch::fetchDataFromUrl(const std::string& url) {
+    std::string readBuffer;
+    CURL* curl;
+    CURLcode response;
+
+    curl_global_init(CURL_GLOBAL_ALL);
+    curl = curl_easy_init();
+
+    if (curl) {
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+
+        response = curl_easy_perform(curl);
+
+        if (response != CURLE_OK) {
+            curl_easy_cleanup(curl);
+            curl_global_cleanup();
+
+            throw std::runtime_error("Failed to fetch data: " + std::string(curl_easy_strerror(res)));
+        }
+
+        curl_easy_cleanup(curl);
+    }
+
+    curl_global_cleanup();
+    return readBuffer;
 }

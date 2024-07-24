@@ -3,14 +3,17 @@
 
 
 
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <stdexcept>
 #include <algorithm>
+#include <cctype>
+#include <curl/curl.h>
 #include <filesystem>
+#include <fstream>
+#include <iostream>
 #include <json/json.h>
-#include <curl/curl.h> 
+#include <sstream>
+#include <stdexcept>
+#include <string>
+#include <vector>
 
 
 
