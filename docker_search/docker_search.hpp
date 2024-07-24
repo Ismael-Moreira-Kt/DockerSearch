@@ -12,6 +12,7 @@ class DockerSearch {
         std::string path;
         std::ofstream fileStream;
     public:
+        void define_path(std::string& path);
 };
 
 
