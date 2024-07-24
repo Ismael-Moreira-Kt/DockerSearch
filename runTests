@@ -38,12 +38,22 @@ function compile_code() {
 
 
 
+function run_tests() {
+    ./test_executable
+
+    return $?
+}
+
+
+
 function main() {
     create_build_directory
     copy_files
 
     if compile_code; then
         echo "Compilation successful!"
+
+        run_tests
     else
         echo "Compilation failed."
     fi
