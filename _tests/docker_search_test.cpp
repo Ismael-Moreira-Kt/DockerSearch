@@ -1,4 +1,4 @@
-#include "docker_search.hpp"
+#include "docker_search_test.hpp"
 
 
 
@@ -50,12 +50,12 @@ void DockerSearchTest::callProcessTags(DockerSearch& ds, const Json::Value& json
 
 
 
-std::string callGetNextPageUrl(DockerSearch& ds, const Json::Value& jsonResponse) {
+std::string DockerSearchTest::callGetNextPageUrl(DockerSearch& ds, const Json::Value& jsonResponse) {
     return ds.getNextPageUrl(jsonResponse);
 }
 
 
 
-void callSortFile(DockerSearch& ds, const std::string& filename) {
+void DockerSearchTest::callSortFile(DockerSearch& ds, const std::string& filename) {
     ds.sortFile(filename);
 }
