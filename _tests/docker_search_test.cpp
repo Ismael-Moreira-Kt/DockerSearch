@@ -29,3 +29,9 @@ std::string DockerSearchTest::callMountUrl(DockerSearch& ds, std::string& name) 
 void DockerSearchTest::callRenameSearchFile(DockerSearch& ds, std::string& name, std::string& tempFilename) {
     ds.renameSearchFile(name, tempFilename);
 }
+
+
+
+std::string DockerSearchTest::callFetchDataFromUrl(DockerSearch& ds, const std::string& url) {
+    return ds.fetchDataFromUrl(url);
+}
