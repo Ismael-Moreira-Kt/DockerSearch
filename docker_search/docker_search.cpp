@@ -44,22 +44,19 @@ void DockerSearch::convertToLower(std::string& name) {
 
 void DockerSearch::createSearchFilename(std::string& name) {
     std::string filename = name + ".txt";
-    std::string pathToFile = this -> path + "/" + filename;
-
+    std::string pathToFile = this->path + "/" + filename;
+    std::string tempFilename = this->path + "/temp_" + filename;
 
     try {
-        fs::create_directories(
-            fs::path(this -> path)
-            .parent_path()
-        );
-        std::ofstream file(pathToFile);
+        fs::create_directories(this->path);
 
-        if (!file) {
-            throw std::runtime_error("Failed to create file: " + pathToFile);
+        std::ofstream tempFile(tempFilename);
+        if (!tempFile) {
+            throw std::runtime_error("Failed to create temporary file: " + tempFilename);
         }
 
-        file.close();
-    } catch (const std::runtime_error& error) {
-        throw std::runtime_error(error.what());
+        tempFile.close();
+    } catch (const std::exception& error) {
+        throw std::runtime_error("Failed to create file: " + std::string(error.what()));
     }
 }
