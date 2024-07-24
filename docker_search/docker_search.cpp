@@ -6,6 +6,13 @@ namespace fs = std::filesystem;
 
 
 
+size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
+    ((std::string*)userp)->append((char*)contents, size * nmemb);
+    return size * nmemb;
+}
+
+
+
 void DockerSearch::define_path(std::string& path) {
     this->path = path;
 }
@@ -24,6 +31,7 @@ void DockerSearch::start_search(std::string& name) {
     try {
         this->convertToLower(name);
         this->createSearchFilename(name);
+        this->searchNameInDockerhub(name);
     } catch(const std::runtime_error& error) {
         std::cerr << "Search process stopped: " << error.what() << std::endl;
     }
@@ -34,7 +42,7 @@ void DockerSearch::start_search(std::string& name) {
 void DockerSearch::convertToLower(std::string& name) {
     std::transform(
         name.begin(), name.end(), name.begin(),
-        [](unsigned char c)->char {
+        [](unsigned char c) -> char {
             return std::tolower(c);
         }
     );
@@ -44,7 +52,6 @@ void DockerSearch::convertToLower(std::string& name) {
 
 void DockerSearch::createSearchFilename(std::string& name) {
     std::string filename = name + ".txt";
-    std::string pathToFile = this->path + "/" + filename;
     std::string tempFilename = this->path + "/temp_" + filename;
 
     try {
@@ -71,7 +78,6 @@ void DockerSearch::searchNameInDockerhub(std::string& name) {
 
     try {
         std::ofstream tempFile(tempFilename, std::ios::app);
-    
         if (!tempFile) {
             throw std::runtime_error("Failed to open temporary file: " + tempFilename);
         }
@@ -81,12 +87,11 @@ void DockerSearch::searchNameInDockerhub(std::string& name) {
             jsonResponse = this->parseJson(jsonData);
         
             this->processTags(jsonResponse, tempFile);
-        
             nextPageUrl = this->getNextPageUrl(jsonResponse);
+
         } while (!nextPageUrl.empty());
 
         tempFile.close();
-
         this->sortFile(tempFilename);
         this->renameSearchFile(name, tempFilename);
     } catch (const std::exception& error) {
@@ -98,7 +103,7 @@ void DockerSearch::searchNameInDockerhub(std::string& name) {
 
 
 std::string DockerSearch::mountUrl(std::string& name) {
-    return  "https://hub.docker.com/v2/repositories/library/" + name + "/tags/";
+    return "https://hub.docker.com/v2/repositories/library/" + name + "/tags/";
 }
 
 
@@ -106,9 +111,11 @@ std::string DockerSearch::mountUrl(std::string& name) {
 void DockerSearch::renameSearchFile(std::string& name, std::string& tempFilename) {
     try {
         std::string finalFilename = this->path + "/" + name + ".txt";
-        std::rename(tempFilename.c_str(), finalFilename.c_str());
+        if (std::rename(tempFilename.c_str(), finalFilename.c_str()) != 0) {
+            throw std::runtime_error("Failed to rename file.");
+        }
     } catch (const std::exception& error) {
-        std::cerr << "Error renaming the temporary file: " << error.what() << std::endl;     
+        std::cerr << "Error renaming the temporary file: " << error.what() << std::endl;
     }
 }
 
@@ -217,11 +224,4 @@ void DockerSearch::sortFile(const std::string& filename) {
     }
 
     outFile.close();
-}
-
-
-
-size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
-    ((std::string*)userp)->append((char*)contents, size * nmemb);
-    return size * nmemb;
 }
