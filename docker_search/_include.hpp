@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <filesystem>
 #include <json/json.h>
+#include <curl/curl.h> 
 
 
 

@@ -66,7 +66,7 @@ void DockerSearch::createSearchFilename(std::string& name) {
 void DockerSearch::searchNameInDockerhub(std::string& name) {
     std::string jsonData;
     Json::Value jsonResponse;
-    // std::string nextPageUrl = ;
+    std::string nextPageUrl = this -> mountUrl(name);
 
     std::string tempFilename = this->path + "/temp_" + name + ".txt";
 
@@ -83,8 +83,14 @@ void DockerSearch::searchNameInDockerhub(std::string& name) {
 
         tempFile.close();
         
-    } catch (const std::exception& e) {
-        std::cerr << "Error processing the response: " << e.what() << std::endl;
+    } catch (const std::exception& error) {
+        std::cerr << "Error processing the response: " << error.what() << std::endl;
         std::remove(tempFilename.c_str());
     }
 }
+
+
+
+std::string DockerSearch::mountUrl(std::string& name) {
+    return  "https://hub.docker.com/v2/repositories/library/" + name + "/tags/";
+};
