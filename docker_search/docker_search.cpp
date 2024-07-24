@@ -60,3 +60,31 @@ void DockerSearch::createSearchFilename(std::string& name) {
         throw std::runtime_error("Failed to create file: " + std::string(error.what()));
     }
 }
+
+
+
+void DockerSearch::searchNameInDockerhub(std::string& name) {
+    std::string jsonData;
+    Json::Value jsonResponse;
+    // std::string nextPageUrl = ;
+
+    std::string tempFilename = this->path + "/temp_" + name + ".txt";
+
+    try {
+        std::ofstream tempFile(tempFilename, std::ios::app);
+    
+        if (!tempFile) {
+            throw std::runtime_error("Failed to open temporary file: " + tempFilename);
+        }
+
+        do {
+
+        } while (!nextPageUrl.empty());
+
+        tempFile.close();
+        
+    } catch (const std::exception& e) {
+        std::cerr << "Error processing the response: " << e.what() << std::endl;
+        std::remove(tempFilename.c_str());
+    }
+}
