@@ -79,6 +79,8 @@ void DockerSearch::searchNameInDockerhub(std::string& name) {
         do {
             jsonData = this -> fetchDataFromUrl(nextPageUrl);
             jsonResponse = this -> parseJson(jsonData);
+        
+            this -> processTags(jsonResponse, tempFile);
         } while (!nextPageUrl.empty());
 
         tempFile.close();
@@ -151,6 +153,25 @@ Json::Value DockerSearch::parseJson(const std::string& jsonData) {
     }
     
     return jsonResponse;
+}
+
+
+
+void DockerSearch::processTags(const Json::Value& jsonResponse, std::ofstream& tempFile) {
+    if (!jsonResponse.isMember("results")) {
+        throw std::runtime_error("JSON does not contain 'results' field.");
+    }
+
+    const Json::Value& tagsArray = jsonResponse["results"];
+
+    if (!tagsArray.isArray()) {
+        throw std::runtime_error("'results' field is not an array.");
+    }
+
+    for (const auto& tag : tagsArray) {
+        std::string tagName = tag["name"].asString();
+        tempFile << tagName << std::endl;
+    }
 }
 
 
