@@ -34,3 +34,14 @@ void TestConvertToLowerEmpty() {
 
     ASSERT_EQUAL(name, "");
 }
+
+
+
+void TestConvertToLowerMixedCase() {
+    DockerSearchTestFixture fixture;
+    
+    std::string name = "MiXeD CaSe";
+    fixture.test.callConvertToLower(fixture.ds, name);
+    
+    ASSERT_EQUAL(name, "mixed case");
+}
