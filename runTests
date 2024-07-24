@@ -16,6 +16,12 @@ function copy_files() {
 
 
 
+function get_cpp_files() {
+    find . -name '*.cpp' | tr '\n' ' '
+}
+
+
+
 function compile_code() {
     cd _build || { echo "Failed to enter _build directory"; exit 1; }
 
@@ -29,6 +35,8 @@ function compile_code() {
 
     return $?
 }
+
+
 
 function main() {
     create_build_directory
