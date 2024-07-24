@@ -81,6 +81,12 @@ void DockerSearch::searchNameInDockerhub(std::string& name) {
             jsonResponse = this -> parseJson(jsonData);
         
             this -> processTags(jsonResponse, tempFile);
+        
+            if (jsonResponse.isMember("next") && !jsonResponse["next"].asString().empty()) {
+                nextPageUrl = jsonResponse["next"].asString();
+            } else {
+                nextPageUrl.clear()
+            }
         } while (!nextPageUrl.empty());
 
         tempFile.close();
