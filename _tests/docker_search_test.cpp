@@ -47,3 +47,9 @@ Json::Value DockerSearchTest::callParseJson(DockerSearch& ds, const std::string&
 void DockerSearchTest::callProcessTags(DockerSearch& ds, const Json::Value& jsonResponse, std::ofstream& tempFile) {
     ds.processTags(jsonResponse, tempFile);
 }
+
+
+
+std::string callGetNextPageUrl(DockerSearch& ds, const Json::Value& jsonResponse) {
+    return ds.getNextPageUrl(jsonResponse);
+}
