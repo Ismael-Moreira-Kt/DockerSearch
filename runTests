@@ -46,6 +46,13 @@ function run_tests() {
 
 
 
+function cleanup() {
+    cd .. || { echo "Failed to return to parent directory"; exit 1; }
+    rm -rf _build
+}
+
+
+
 function main() {
     create_build_directory
     copy_files
@@ -57,6 +64,8 @@ function main() {
     else
         echo "Compilation failed."
     fi
+
+    cleanup
 }
 
 
