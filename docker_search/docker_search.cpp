@@ -7,14 +7,14 @@ namespace fs = std::filesystem;
 
 
 void DockerSearch::define_path(std::string& path) {
-    this -> path = path;
+    this->path = path;
 }
 
 
 
 void DockerSearch::start_search(std::string& name) {
-    if (this -> path.empty()) {
-        this -> path = ".";
+    if (this->path.empty()) {
+        this->path = ".";
     }
 
     if (name.empty()) {
@@ -22,8 +22,8 @@ void DockerSearch::start_search(std::string& name) {
     }
 
     try {
-        this -> convertToLower(name);
-        this -> createSearchFilename(name);
+        this->convertToLower(name);
+        this->createSearchFilename(name);
     } catch(const std::runtime_error& error) {
         std::cerr << "Search process stopped: " << error.what() << std::endl;
     }
@@ -34,7 +34,7 @@ void DockerSearch::start_search(std::string& name) {
 void DockerSearch::convertToLower(std::string& name) {
     std::transform(
         name.begin(), name.end(), name.begin(),
-        [](unsigned char c) -> char {
+        [](unsigned char c)->char {
             return std::tolower(c);
         }
     );
@@ -66,7 +66,7 @@ void DockerSearch::createSearchFilename(std::string& name) {
 void DockerSearch::searchNameInDockerhub(std::string& name) {
     std::string jsonData;
     Json::Value jsonResponse;
-    std::string nextPageUrl = this -> mountUrl(name);
+    std::string nextPageUrl = this->mountUrl(name);
     std::string tempFilename = this->path + "/temp_" + name + ".txt";
 
     try {
@@ -77,18 +77,18 @@ void DockerSearch::searchNameInDockerhub(std::string& name) {
         }
 
         do {
-            jsonData = this -> fetchDataFromUrl(nextPageUrl);
-            jsonResponse = this -> parseJson(jsonData);
+            jsonData = this->fetchDataFromUrl(nextPageUrl);
+            jsonResponse = this->parseJson(jsonData);
         
-            this -> processTags(jsonResponse, tempFile);
+            this->processTags(jsonResponse, tempFile);
         
-            nextPageUrl = this -> getNextPageUrl(jsonResponse);
+            nextPageUrl = this->getNextPageUrl(jsonResponse);
         } while (!nextPageUrl.empty());
 
         tempFile.close();
 
-        this -> sortFile(tempFilename);
-        this -> renameSearchFile(name, tempFilename);
+        this->sortFile(tempFilename);
+        this->renameSearchFile(name, tempFilename);
     } catch (const std::exception& error) {
         std::cerr << "Error processing the response: " << error.what() << std::endl;
         std::remove(tempFilename.c_str());
@@ -99,16 +99,16 @@ void DockerSearch::searchNameInDockerhub(std::string& name) {
 
 std::string DockerSearch::mountUrl(std::string& name) {
     return  "https://hub.docker.com/v2/repositories/library/" + name + "/tags/";
-};
+}
 
 
 
-void DockerSearch::renameSearchFile(std::string &name, std::string &tempFilename) {
+void DockerSearch::renameSearchFile(std::string& name, std::string& tempFilename) {
     try {
-        std::string finalFilename = this -> path + "/" + name + ".txt";
+        std::string finalFilename = this->path + "/" + name + ".txt";
         std::rename(tempFilename.c_str(), finalFilename.c_str());
     } catch (const std::exception& error) {
-        std::cerr << "Error renaming the temporary file." << error.what() << std::endl;     
+        std::cerr << "Error renaming the temporary file: " << error.what() << std::endl;     
     }
 }
 
@@ -123,7 +123,7 @@ std::string DockerSearch::fetchDataFromUrl(const std::string& url) {
     curl = curl_easy_init();
 
     if (curl) {
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str);
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
 
@@ -132,8 +132,7 @@ std::string DockerSearch::fetchDataFromUrl(const std::string& url) {
         if (response != CURLE_OK) {
             curl_easy_cleanup(curl);
             curl_global_cleanup();
-
-            throw std::runtime_error("Failed to fetch data: " + std::string(curl_easy_strerror(res)));
+            throw std::runtime_error("Failed to fetch data: " + std::string(curl_easy_strerror(response)));
         }
 
         curl_easy_cleanup(curl);
@@ -152,7 +151,7 @@ Json::Value DockerSearch::parseJson(const std::string& jsonData) {
     std::istringstream ss(jsonData);
     std::string errs;
 
-    if (!Json::pareFromStream(readerBuilder, ss, &jsonResponse. &errs)) {
+    if (!Json::parseFromStream(readerBuilder, ss, &jsonResponse, &errs)) {
         throw std::runtime_error("Failed to parse JSON: " + errs);
     }
     
@@ -206,7 +205,7 @@ void DockerSearch::sortFile(const std::string& filename) {
 
     file.close();
 
-    std::sort(line.begin(), lines.end());
+    std::sort(lines.begin(), lines.end());
     std::ofstream outFile(filename);
 
     if (!outFile.is_open()) {
@@ -223,6 +222,6 @@ void DockerSearch::sortFile(const std::string& filename) {
 
 
 size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
-    ((std::string*) userp) -> append((char*) contents, size * nmemb);
+    ((std::string*)userp)->append((char*)contents, size * nmemb);
     return size * nmemb;
 }
