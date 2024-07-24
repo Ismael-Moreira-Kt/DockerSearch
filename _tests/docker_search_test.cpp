@@ -35,3 +35,9 @@ void DockerSearchTest::callRenameSearchFile(DockerSearch& ds, std::string& name,
 std::string DockerSearchTest::callFetchDataFromUrl(DockerSearch& ds, const std::string& url) {
     return ds.fetchDataFromUrl(url);
 }
+
+
+
+Json::Value DockerSearchTest::callParseJson(DockerSearch& ds, const std::string& jsonData) {
+    return ds.parseJson(jsonData);
+}
