@@ -16,9 +16,29 @@ function copy_files() {
 
 
 
+function compile_code() {
+    cd _build || { echo "Failed to enter _build directory"; exit 1; }
+
+    local cpp_files
+    cpp_files=$(get_cpp_files)
+
+    g++ -std=c++17 -o test_executable \
+        $cpp_files \
+        -I/usr/include/jsoncpp \
+        -ljsoncpp
+
+    return $?
+}
+
 function main() {
     create_build_directory
     copy_files
+
+    if compile_code; then
+        echo "Compilation successful!"
+    else
+        echo "Compilation failed."
+    fi
 }
 
 
