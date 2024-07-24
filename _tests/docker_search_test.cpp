@@ -5,3 +5,9 @@
 void DockerSearchTest::callConvertToLower(DockerSearch& ds, std::string& name) {
     ds.convertToLower(name);
 }
+
+
+
+void DockerSearchTest::callCreateSearchFilename(DockerSearch& ds, std::string& name) {
+    ds.createSearchFilename(name);
+}
