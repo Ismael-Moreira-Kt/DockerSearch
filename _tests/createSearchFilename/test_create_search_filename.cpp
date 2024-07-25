@@ -40,3 +40,13 @@ void TestCreateSearchFilenameInvalidPath() {
     
     ASSERT_THROW(fixture.test.callCreateSearchFilename(fixture.ds, name), std::runtime_error);
 }
+
+
+
+void TestCreateSearchFilenameEmptyName() {
+    DockerSearchTestFixture fixture;
+
+    std::string name = "";
+
+    ASSERT_THROW(fixture.test.callCreateSearchFilename(fixture.ds, name), std::runtime_error);
+}
