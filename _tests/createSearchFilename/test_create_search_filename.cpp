@@ -50,3 +50,13 @@ void TestCreateSearchFilenameEmptyName() {
 
     ASSERT_THROW(fixture.test.callCreateSearchFilename(fixture.ds, name), std::runtime_error);
 }
+
+
+
+void TestCreateSearchFilenameLongName() {
+    DockerSearchTestFixture fixture;
+    
+    std::string name(300, 'x');
+    
+    ASSERT_THROW(fixture.test.callCreateSearchFilename(fixture.ds, name), std::runtime_error);
+}
