@@ -225,3 +225,9 @@ void DockerSearch::sortFile(const std::string& filename) {
 
     outFile.close();
 }
+
+
+
+std::string DockerSearch::getPath() {
+    return this -> path;
+}

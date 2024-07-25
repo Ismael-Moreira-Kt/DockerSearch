@@ -9,6 +9,12 @@ void TestConvertToLowerEmpty();
 void TestConvertToLowerMixedCase();
 void TestConvertToLowerNonAlphabetic();
 
+void TestCreateSearchFilenameSuccess();
+void TestCreateSearchFilenameNoPath();
+void TestCreateSearchFilenameInvalidPath();
+void TestCreateSearchFilenameEmptyName();
+void TestCreateSearchFilenameLongName();
+
 
 
 #endif
