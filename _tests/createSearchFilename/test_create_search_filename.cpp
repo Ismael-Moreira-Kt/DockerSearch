@@ -18,3 +18,14 @@ void TestCreateSearchFilenameSuccess() {
     std::filesystem::remove(tempFilename);
     std::filesystem::remove_all(validPath);
 }
+
+
+
+void TestCreateSearchFilenameNoPath() {
+    DockerSearchTestFixture fixture;
+    std::string emptyPath = "";
+    fixture.test.callDefinePath(fixture.ds, emptyPath);
+    std::string name = "testfile";
+    
+    ASSERT_THROW(fixture.test.callCreateSearchFilename(fixture.ds, name), std::runtime_error);
+}
