@@ -24,6 +24,8 @@ class DockerSearch {
         std::string getNextPageUrl(const Json::Value& jsonResponse);
         void sortFile(const std::string& filename);
 
+        std::string getPath();
+
         friend class DockerSearchTest;
     public:
         void define_path(std::string& path);
