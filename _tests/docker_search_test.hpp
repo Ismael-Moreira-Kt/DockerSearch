@@ -19,6 +19,8 @@ class DockerSearchTest {
         void callProcessTags(DockerSearch& ds, const Json::Value& jsonResponse, std::ofstream& tempFile);
         std::string callGetNextPageUrl(DockerSearch& ds, const Json::Value& jsonResponse);
         void callSortFile(DockerSearch& ds, const std::string& filename);
+        void callDefinePath(DockerSearch& ds, std::string& path);
+        std::string getPath(DockerSearch& ds);
 };
 
 

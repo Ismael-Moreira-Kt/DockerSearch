@@ -59,3 +59,15 @@ std::string DockerSearchTest::callGetNextPageUrl(DockerSearch& ds, const Json::V
 void DockerSearchTest::callSortFile(DockerSearch& ds, const std::string& filename) {
     ds.sortFile(filename);
 }
+
+
+
+void DockerSearchTest::callDefinePath(DockerSearch& ds, std::string& path) {
+    ds.define_path(path);
+}
+
+
+
+std::string DockerSearchTest::getPath(DockerSearch& ds) {
+    return ds.getPath();
+}
