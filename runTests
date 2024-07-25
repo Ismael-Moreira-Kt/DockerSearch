@@ -9,9 +9,9 @@ function create_build_directory() {
 
 
 function copy_files() {
-    cp docker_search/* _build/
-    cp _libs/musgravite/musgravite.hpp _build/
-    cp _tests/* _build
+    find docker_search -type f \( -name '*.cpp' -o -name '*.hpp' \) -exec cp {} _build/ \;
+    find _libs -type f \( -name '*.cpp' -o -name '*.hpp' \) -exec cp {} _build/ \;
+    find _tests -type f \( -name '*.cpp' -o -name '*.hpp' \) -exec cp {} _build/ \;
 }
 
 
@@ -31,7 +31,9 @@ function compile_code() {
     g++ -std=c++17 -o test_executable \
         $cpp_files \
         -I/usr/include/jsoncpp \
-        -ljsoncpp
+        -I/usr/include/curl \
+        -ljsoncpp \
+        -lcurl
 
     return $?
 }
