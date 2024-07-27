@@ -1,5 +1,5 @@
-#ifndef DOCKER_SEARCH_HPP
-#define DOCKER_SEARCH_HPP
+#ifndef tagify_HPP
+#define tagify_HPP
 
 
 
@@ -7,7 +7,7 @@
 
 
 
-class DockerSearch {
+class Tagify {
     private:
         std::string path;
         std::ofstream fileStream;
@@ -26,7 +26,7 @@ class DockerSearch {
 
         std::string getPath();
 
-        friend class DockerSearchTest;
+        friend class TagifyTest;
     public:
         void define_path(std::string& path);
         void start_search(std::string& name);

@@ -1,11 +1,11 @@
 #include "musgravite.hpp"
-#include "docker_search_test.hpp"
-#include "docker_search.hpp"
+#include "tagify_test.hpp"
+#include "tagify.hpp"
 
 
 
 void TestConvertToLowerPositive() {
-    DockerSearchTestFixture fixture;
+    TagifyTestFixture fixture;
 
     std::string name = "SOME NAME";
     fixture.test.callConvertToLower(fixture.ds, name);
@@ -16,7 +16,7 @@ void TestConvertToLowerPositive() {
 
 
 void TestConvertToLowerAlreadyLowercase() {
-    DockerSearchTestFixture fixture;
+    TagifyTestFixture fixture;
 
     std::string name = "already lowercase";
     fixture.test.callConvertToLower(fixture.ds, name);
@@ -27,7 +27,7 @@ void TestConvertToLowerAlreadyLowercase() {
 
 
 void TestConvertToLowerEmpty() {
-    DockerSearchTestFixture fixture;
+    TagifyTestFixture fixture;
 
     std::string name = "";
     fixture.test.callConvertToLower(fixture.ds, name);
@@ -38,7 +38,7 @@ void TestConvertToLowerEmpty() {
 
 
 void TestConvertToLowerMixedCase() {
-    DockerSearchTestFixture fixture;
+    TagifyTestFixture fixture;
     
     std::string name = "MiXeD CaSe";
     fixture.test.callConvertToLower(fixture.ds, name);
@@ -49,7 +49,7 @@ void TestConvertToLowerMixedCase() {
 
 
 void TestConvertToLowerNonAlphabetic() {
-    DockerSearchTestFixture fixture;
+    TagifyTestFixture fixture;
     
     std::string name = "123456 !@#$%";
     fixture.test.callConvertToLower(fixture.ds, name);

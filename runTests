@@ -9,7 +9,7 @@ function create_build_directory() {
 
 
 function copy_files() {
-    find docker_search -type f \( -name '*.cpp' -o -name '*.hpp' \) -exec cp {} _build/ \;
+    find tagify -type f \( -name '*.cpp' -o -name '*.hpp' \) -exec cp {} _build/ \;
     find _libs -type f \( -name '*.cpp' -o -name '*.hpp' \) -exec cp {} _build/ \;
     find _tests -type f \( -name '*.cpp' -o -name '*.hpp' \) -exec cp {} _build/ \;
 }
