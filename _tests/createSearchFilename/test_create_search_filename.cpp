@@ -1,11 +1,11 @@
-#include "docker_search_test.hpp"
-#include "docker_search.hpp"
+#include "tagify_test.hpp"
+#include "tagify.hpp"
 #include "musgravite.hpp"
 
 
 
 void TestCreateSearchFilenameSuccess() {
-    DockerSearchTestFixture fixture;
+    TagifyTestFixture fixture;
     std::string validPath = "./test_directory"; 
     fixture.test.callDefinePath(fixture.ds, validPath); 
     
@@ -22,7 +22,7 @@ void TestCreateSearchFilenameSuccess() {
 
 
 void TestCreateSearchFilenameNoPath() {
-    DockerSearchTestFixture fixture;
+    TagifyTestFixture fixture;
     std::string emptyPath = "";
     fixture.test.callDefinePath(fixture.ds, emptyPath);
     std::string name = "testfile";
@@ -33,7 +33,7 @@ void TestCreateSearchFilenameNoPath() {
 
 
 void TestCreateSearchFilenameInvalidPath() {
-    DockerSearchTestFixture fixture;
+    TagifyTestFixture fixture;
     std::string invalidPath = "/invalid/path";
     fixture.test.callDefinePath(fixture.ds, invalidPath);
     std::string name = "testfile";
@@ -44,7 +44,7 @@ void TestCreateSearchFilenameInvalidPath() {
 
 
 void TestCreateSearchFilenameEmptyName() {
-    DockerSearchTestFixture fixture;
+    TagifyTestFixture fixture;
 
     std::string name = "";
 
@@ -54,7 +54,7 @@ void TestCreateSearchFilenameEmptyName() {
 
 
 void TestCreateSearchFilenameLongName() {
-    DockerSearchTestFixture fixture;
+    TagifyTestFixture fixture;
     
     std::string name(300, 'x');
     

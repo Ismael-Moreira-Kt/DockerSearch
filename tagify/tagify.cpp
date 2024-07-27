@@ -1,4 +1,4 @@
-#include "docker_search.hpp"
+#include "tagify.hpp"
 
 
 
@@ -13,13 +13,13 @@ size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
 
 
 
-void DockerSearch::define_path(std::string& path) {
+void Tagify::define_path(std::string& path) {
     this->path = path;
 }
 
 
 
-void DockerSearch::start_search(std::string& name) {
+void Tagify::start_search(std::string& name) {
     if (this->path.empty()) {
         this->path = ".";
     }
@@ -39,7 +39,7 @@ void DockerSearch::start_search(std::string& name) {
 
 
 
-void DockerSearch::convertToLower(std::string& name) {
+void Tagify::convertToLower(std::string& name) {
     std::transform(
         name.begin(), name.end(), name.begin(),
         [](unsigned char c) -> char {
@@ -50,7 +50,7 @@ void DockerSearch::convertToLower(std::string& name) {
 
 
 
-void DockerSearch::createSearchFilename(std::string& name) {
+void Tagify::createSearchFilename(std::string& name) {
     std::string filename = name + ".txt";
     std::string tempFilename = this->path + "/temp_" + filename;
 
@@ -70,7 +70,7 @@ void DockerSearch::createSearchFilename(std::string& name) {
 
 
 
-void DockerSearch::searchNameInDockerhub(std::string& name) {
+void Tagify::searchNameInDockerhub(std::string& name) {
     std::string jsonData;
     Json::Value jsonResponse;
     std::string nextPageUrl = this->mountUrl(name);
@@ -102,13 +102,13 @@ void DockerSearch::searchNameInDockerhub(std::string& name) {
 
 
 
-std::string DockerSearch::mountUrl(std::string& name) {
+std::string Tagify::mountUrl(std::string& name) {
     return "https://hub.docker.com/v2/repositories/library/" + name + "/tags/";
 }
 
 
 
-void DockerSearch::renameSearchFile(std::string& name, std::string& tempFilename) {
+void Tagify::renameSearchFile(std::string& name, std::string& tempFilename) {
     try {
         std::string finalFilename = this->path + "/" + name + ".txt";
         if (std::rename(tempFilename.c_str(), finalFilename.c_str()) != 0) {
@@ -121,7 +121,7 @@ void DockerSearch::renameSearchFile(std::string& name, std::string& tempFilename
 
 
 
-std::string DockerSearch::fetchDataFromUrl(const std::string& url) {
+std::string Tagify::fetchDataFromUrl(const std::string& url) {
     std::string readBuffer;
     CURL* curl;
     CURLcode response;
@@ -151,7 +151,7 @@ std::string DockerSearch::fetchDataFromUrl(const std::string& url) {
 
 
 
-Json::Value DockerSearch::parseJson(const std::string& jsonData) {
+Json::Value Tagify::parseJson(const std::string& jsonData) {
     Json::CharReaderBuilder readerBuilder;
     Json::Value jsonResponse;
 
@@ -167,7 +167,7 @@ Json::Value DockerSearch::parseJson(const std::string& jsonData) {
 
 
 
-void DockerSearch::processTags(const Json::Value& jsonResponse, std::ofstream& tempFile) {
+void Tagify::processTags(const Json::Value& jsonResponse, std::ofstream& tempFile) {
     if (!jsonResponse.isMember("results")) {
         throw std::runtime_error("JSON does not contain 'results' field.");
     }
@@ -186,7 +186,7 @@ void DockerSearch::processTags(const Json::Value& jsonResponse, std::ofstream& t
 
 
 
-std::string DockerSearch::getNextPageUrl(const Json::Value& jsonResponse) {
+std::string Tagify::getNextPageUrl(const Json::Value& jsonResponse) {
     if (jsonResponse.isMember("next") && !jsonResponse["next"].asString().empty()) {
         return jsonResponse["next"].asString();
     }
@@ -196,7 +196,7 @@ std::string DockerSearch::getNextPageUrl(const Json::Value& jsonResponse) {
 
 
 
-void DockerSearch::sortFile(const std::string& filename) {
+void Tagify::sortFile(const std::string& filename) {
     std::ifstream file(filename);
     std::vector<std::string> lines;
 
@@ -228,6 +228,6 @@ void DockerSearch::sortFile(const std::string& filename) {
 
 
 
-std::string DockerSearch::getPath() {
+std::string Tagify::getPath() {
     return this -> path;
 }
